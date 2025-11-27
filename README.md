@@ -1,368 +1,153 @@
-# API 自动化测试框架
+# TestForge - API测试平台
 
-基于 Pytest 的专业接口自动化测试框架，提供完整的测试解决方案。
+专业的API测试工具，支持HTTP/HTTPS和Protobuf协议。
 
-## 项目特点
+## 🚀 快速开始
 
-- 基于 Pytest 测试框架，功能强大且易于扩展
-- 完整的日志系统，自动记录请求和响应信息
-- 支持 Allure 测试报告，可视化展示测试结果
-- 封装 HTTP 客户端，支持请求重试和会话管理
-- 支持多环境配置（测试、预发布、生产）
-- 数据驱动测试，支持 JSON、YAML、CSV 格式
-- 丰富的断言工具类，自动记录到日志和报告
-- 支持数据库和 Redis 连接
-- 提供测试数据自动清理机制
-- 完善的 fixtures 体系，提高用例复用性
+### 启动平台（最简单）
+双击 `start_all_services.vbs` 即可！
 
-## 项目结构
+脚本会自动：
+- ✅ 检测服务状态
+- ✅ 启动后端API（http://localhost:8000）
+- ✅ 启动前端UI（http://localhost:8080）
+- ✅ 自动打开浏览器
+
+### 停止平台
+双击 `stop_platform.bat`
+
+---
+
+## ✨ 主要功能
+
+- 🌐 **HTTP/HTTPS测试** - 支持GET/POST/PUT/DELETE等方法
+- 📦 **Protobuf支持** - 上传.proto文件，自动编译和转换
+- 🎯 **媒体管理** - 配置多个广告媒体及其接口信息
+- 💾 **用例保存** - 保存和重用测试用例
+- ✅ **断言验证** - 自动验证响应结果
+- 📊 **实时日志** - 查看详细的请求和响应信息
+
+---
+
+## 📖 文档
+
+详细文档位于 `docs/` 目录：
+
+- **QUICK_START.md** - 快速入门指南
+- **USER_GUIDE.md** - 完整使用手册
+- **TERMINOLOGY.md** - 术语说明（媒体、用例等概念）
+- **SETUP_GUIDE.md** - 安装配置指南
+- **PROJECT_STRUCTURE.md** - 项目结构说明
+- **BACKEND_MANAGEMENT.md** - 后端服务管理
+
+---
+
+## 🛠️ 技术栈
+
+**后端：**
+- FastAPI - 高性能Web框架
+- Protobuf - 协议缓冲区支持
+- Uvicorn - ASGI服务器
+
+**前端：**
+- React + TypeScript
+- Vite - 快速构建工具
+- Shadcn/ui - UI组件库
+
+---
+
+## 📂 项目结构
 
 ```
 tool_project/
-├── apis/                   # API接口封装
-│   ├── __init__.py
-│   ├── base_api.py        # API基类
-│   └── user_api.py        # 用户API示例
-├── common/                 # 公共模块
-│   ├── __init__.py
-│   └── fixtures.py        # 公共fixtures
-├── config/                 # 配置文件
-│   ├── __init__.py
-│   └── config.py          # 全局配置
-├── data/                   # 测试数据
-│   └── test_data/         # 测试数据文件
-│       ├── user_data.json
-│       └── api_test_data.yaml
-├── logs/                   # 日志文件（自动生成）
-├── reports/                # 测试报告（自动生成）
-│   ├── allure-results/
-│   └── screenshots/
-├── testcases/              # 测试用例
-│   ├── __init__.py
-│   ├── conftest.py        # 测试用例fixtures
-│   └── api/               # API测试用例
-│       ├── __init__.py
-│       └── test_user.py   # 用户接口测试示例
-├── utils/                  # 工具类
-│   ├── __init__.py
-│   ├── assert_util.py     # 断言工具
-│   ├── data_handler.py    # 数据处理工具
-│   ├── db_client.py       # 数据库客户端
-│   ├── http_client.py     # HTTP客户端
-│   └── logger.py          # 日志工具
-├── .env.example           # 环境变量示例
-├── .gitignore             # Git忽略文件
-├── conftest.py            # Pytest全局配置
-├── pytest.ini             # Pytest配置文件
-├── requirements.txt       # 项目依赖
-└── README.md              # 项目说明文档
+├── README.md                    # 本文件
+├── start_all_services.vbs       # 一键启动（推荐）
+├── stop_platform.bat            # 停止所有服务
+│
+├── testforge/                   # 后端项目
+│   ├── src/api/                 # FastAPI服务
+│   ├── proto_files/             # 媒体Proto文件
+│   ├── compiled_protos/         # 编译后的Proto
+│   ├── environments/            # 媒体配置文件
+│   └── testcases/               # 测试用例
+│
+├── forge-apis/                  # 前端项目（React）
+│
+├── docs/                        # 文档
+├── scripts/                     # 管理脚本
+└── tests/                       # 测试文件
 ```
 
-## 快速开始
+---
 
-### 1. 环境准备
+## 🎯 使用示例
 
-```bash
-# 克隆项目（如果使用Git）
-git clone <repository-url>
-cd tool_project
+### 1. 创建媒体
+在前端UI中点击"Media Management"（媒体管理），创建新媒体：
+- 媒体名称：努比亚
+- Base URL：http://nubia-test.taopb.com/adx/ssp/nubia
+- 协议类型：Protobuf
+- 默认参数：配置该媒体的默认请求参数
 
-# 创建虚拟环境
-python -m venv venv
+### 2. 上传Proto文件
+选择媒体后，上传对应的`.proto`文件，系统会自动：
+- 编译Proto文件
+- 提取Message类型列表
+- 生成Python绑定
 
-# 激活虚拟环境
-# Windows:
-venv\Scripts\activate
-# Linux/Mac:
-source venv/bin/activate
+### 3. 发送请求
+选择媒体和Message类型，填写或使用默认参数，点击发送：
+- 选择媒体：努比亚
+- Request Message Type: BidRequest
+- Response Message Type: BidResponse
 
-# 安装依赖
-pip install -r requirements.txt
-```
+系统会自动处理JSON ↔ Protobuf转换。
 
-### 2. 配置环境
+---
 
-```bash
-# 复制环境配置文件
-cp .env.example .env
+## 🔧 故障排查
 
-# 编辑 .env 文件，填入实际配置
-# 或者直接修改 config/config.py 中的配置
-```
+### 问题：服务无法启动
+**解决方案：**
+1. 检查端口占用：`netstat -ano | findstr "8000 8080"`
+2. 运行 `stop_platform.bat` 停止所有服务
+3. 重新运行 `start_all_services.vbs`
 
-### 3. 运行测试
+### 问题：前端无法连接后端
+**解决方案：**
+1. 访问 http://localhost:8000/ 检查后端状态
+2. 检查防火墙设置
+3. 确认后端服务正在运行
 
-```bash
-# 运行所有测试
-pytest
+### 问题：Proto文件解析失败
+**解决方案：**
+1. 确认媒体协议类型设置为"Protobuf"
+2. 检查Proto文件语法是否正确
+3. 确认选择的Message Type正确（如BidRequest/BidResponse）
+4. 查看后端日志了解详细错误
 
-# 运行指定模块
-pytest testcases/api/test_user.py
+---
 
-# 运行指定标记的用例
-pytest -m smoke                    # 运行冒烟测试
-pytest -m "login or user"          # 运行登录或用户相关用例
+## 📝 更新日志
 
-# 运行指定用例
-pytest testcases/api/test_user.py::TestUserLogin::test_login_success
+### 2025-11-27
+- ✅ 修复Proto文件上传后Message类型显示问题
+- ✅ 改进启动脚本，支持智能检测和自动重启
+- ✅ 优化项目结构，整理根目录文件
+- ✅ 增强Protobuf转换错误处理
 
-# 并发运行（需要安装pytest-xdist）
-pytest -n 4                        # 4个进程并发
+---
 
-# 查看详细输出
-pytest -v                          # 详细模式
-pytest -s                          # 显示print输出
-pytest -vs                         # 组合使用
-```
+## 📄 许可证
 
-### 4. 查看测试报告
+本项目仅供内部使用。
 
-```bash
-# HTML报告（自动生成在 reports/report.html）
-# 直接在浏览器中打开即可
+---
 
-# Allure报告
-# 生成报告
-allure generate reports/allure-results -o reports/allure-report --clean
-
-# 查看报告
-allure serve reports/allure-results
-```
-
-## 使用指南
+## 🤝 贡献
 
-### 编写测试用例
+如有问题或建议，请联系开发团队。
 
-```python
-import pytest
-import allure
-from utils.assert_util import AssertUtil
+---
 
-
-@allure.feature("用户模块")
-@allure.story("用户登录")
-class TestUserLogin:
-
-    @allure.title("测试正常登录")
-    @pytest.mark.smoke
-    def test_login_success(self, user_api, config):
-        # 获取测试数据
-        user_info = config.get_test_user("normal_user")
-
-        # 调用API
-        response = user_api.login(
-            username=user_info["username"],
-            password=user_info["password"]
-        )
-
-        # 断言验证
-        AssertUtil.assert_status_code(response, 200)
-        AssertUtil.assert_in("token", response.json()["data"])
-```
-
-### 添加新的API接口
-
-1. 在 `apis/` 目录下创建新的API文件
-2. 继承 `BaseAPI` 类
-3. 使用 `@allure.step` 装饰器标记步骤
-
-```python
-from apis.base_api import BaseAPI
-import allure
-
-
-class OrderAPI(BaseAPI):
-
-    @allure.step("创建订单")
-    def create_order(self, product_id: int, quantity: int):
-        payload = {
-            "product_id": product_id,
-            "quantity": quantity
-        }
-        return self.client.post("/api/v1/orders", json_data=payload)
-```
-
-### 管理测试数据
-
-支持三种格式的测试数据：
-
-**JSON格式** (`data/test_data/xxx.json`)
-```json
-{
-  "test_case_1": {
-    "username": "test",
-    "password": "123456"
-  }
-}
-```
-
-**YAML格式** (`data/test_data/xxx.yaml`)
-```yaml
-test_case_1:
-  username: test
-  password: 123456
-```
-
-**在用例中使用**
-```python
-def test_example(self, get_test_data):
-    data = get_test_data("user_data.json", "test_case_1")
-    # 使用data进行测试
-```
-
-### 使用数据库
-
-```python
-def test_with_database(self, db_connection):
-    # 执行查询
-    result = db_connection.execute_query(
-        "SELECT * FROM users WHERE id = %s",
-        (1,)
-    )
-
-    # 执行更新
-    rows = db_connection.execute_update(
-        "UPDATE users SET status = %s WHERE id = %s",
-        ("active", 1)
-    )
-```
-
-## 配置说明
-
-### pytest.ini
-
-- 定义测试文件、类、函数的命名规则
-- 配置测试标记（markers）
-- 设置日志格式和级别
-- 配置Allure报告路径
-
-### config/config.py
-
-- 环境配置（测试、预发布、生产）
-- API地址配置
-- 数据库配置
-- Redis配置
-- 测试账号配置
-- 文件路径配置
-
-## 进阶功能
-
-### 自定义Fixtures
-
-在 `conftest.py` 中添加自定义fixtures：
-
-```python
-@pytest.fixture(scope="function")
-def custom_fixture():
-    # setup
-    yield value
-    # teardown
-```
-
-### 参数化测试
-
-```python
-@pytest.mark.parametrize("username,password,expected", [
-    ("user1", "pass1", 200),
-    ("user2", "pass2", 200),
-    ("invalid", "wrong", 401),
-])
-def test_login(self, user_api, username, password, expected):
-    response = user_api.login(username, password)
-    assert response.status_code == expected
-```
-
-### 数据驱动
-
-使用 `pytest-yaml` 或 `pytest-json` 实现数据驱动测试。
-
-## 常见问题
-
-### 1. 如何切换测试环境？
-
-方法一：修改 `config/config.py` 中的 `ENV` 变量
-```python
-ENV = "staging"  # test, staging, prod
-```
-
-方法二：使用环境变量
-```bash
-export TEST_ENV=staging
-pytest
-```
-
-方法三：使用命令行参数
-```bash
-pytest --env=staging
-```
-
-### 2. 如何跳过某些测试？
-
-```python
-@pytest.mark.skip(reason="暂时跳过")
-def test_example():
-    pass
-
-@pytest.mark.skipif(condition, reason="条件跳过")
-def test_example2():
-    pass
-```
-
-### 3. 如何处理认证token？
-
-框架已内置token管理：
-
-```python
-# 登录后自动设置token
-response = user_api.login(username, password)
-token = response.json()["data"]["token"]
-user_api.client.set_auth_token(token)
-
-# 或使用login_user fixture自动登录
-def test_with_auth(self, user_api, login_user):
-    # login_user会自动登录并设置token
-    pass
-```
-
-## 最佳实践
-
-1. **用例设计原则**
-   - 每个测试用例只测试一个功能点
-   - 用例之间保持独立，不要相互依赖
-   - 使用有意义的用例名称和描述
-
-2. **数据管理**
-   - 测试数据与测试代码分离
-   - 使用fixtures自动清理测试数据
-   - 敏感数据使用环境变量
-
-3. **断言规范**
-   - 使用 `AssertUtil` 进行断言，自动记录日志
-   - 断言失败时提供清晰的错误信息
-   - 对关键字段进行多重断言
-
-4. **日志记录**
-   - 关键步骤使用 `@allure.step` 标记
-   - 重要信息使用logger记录
-   - 失败时自动记录详细信息
-
-## 维护与扩展
-
-- 定期更新依赖包版本
-- 根据项目需求扩展工具类
-- 完善测试数据和用例覆盖
-- 优化CI/CD集成
-
-## 联系方式
-
-如有问题或建议，请联系测试团队。
-
-## 更新日志
-
-### v1.0.0 (2025-11-24)
-- 初始版本发布
-- 完整的pytest测试框架
-- HTTP客户端封装
-- 日志和报告系统
-- 数据库支持
-- 示例测试用例
+**提示**: 首次使用请先阅读 `docs/QUICK_START.md`
