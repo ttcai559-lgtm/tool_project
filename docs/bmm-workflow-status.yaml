@@ -1,0 +1,131 @@
+# Workflow Status Template
+
+# This tracks progress through BMM methodology Analysis, Planning, and Solutioning phases.
+# Implementation phase is tracked separately in sprint-status.yaml
+
+# STATUS DEFINITIONS:
+# ==================
+# Initial Status (before completion):
+#   - required: Must be completed to progress
+#   - optional: Can be completed but not required
+#   - recommended: Strongly suggested but not required
+#   - conditional: Required only if certain conditions met (e.g., if_has_ui)
+#
+# Completion Status:
+#   - {file-path}: File created/found (e.g., "docs/product-brief.md")
+#   - skipped: Optional/conditional workflow that was skipped
+
+generated: "2025-11-25"
+project: "TestForge"
+project_type: "测试工具集合体 - 首个功能：API调试工具（类似Postman），带可视化前端"
+selected_track: "method"
+field_type: "greenfield"
+workflow_path: ".bmad/bmm/workflows/workflow-status/paths/method-greenfield.yaml"
+workflow_status:
+  # Phase 0: Discovery (Optional)
+  - phase: 0
+    name: "Discovery (Optional)"
+    workflows:
+      - id: "brainstorm-project"
+        name: "项目头脑风暴"
+        agent: "analyst"
+        command: "/bmad-brainstorm"
+        status: "docs/bmm-brainstorming-session-2025-11-25.md"
+        description: "创意探索和构思，多角度探索功能点和用户场景"
+
+      - id: "research"
+        name: "研究工作流"
+        agent: "analyst"
+        command: "/bmad-research"
+        status: "optional"
+        description: "技术/竞品分析（Postman、Insomnia等），技术选型调研"
+
+      - id: "product-brief"
+        name: "产品简介"
+        agent: "analyst"
+        command: "/bmad-product-brief"
+        status: "optional"
+        description: "明确产品定位、目标用户、核心价值"
+
+  # Phase 1: Planning
+  - phase: 1
+    name: "Planning"
+    workflows:
+      - id: "prd"
+        name: "产品需求文档"
+        agent: "pm"
+        command: "/bmad-prd"
+        status: "required"
+        description: "包含功能需求(FRs)和非功能需求(NFRs)的完整PRD"
+        output: "docs/prd.md or docs/prd/"
+
+      - id: "validate-prd"
+        name: "验证PRD"
+        agent: "pm"
+        command: "/bmad-validate-prd"
+        status: "optional"
+        description: "PRD完整性质量检查"
+
+      - id: "create-design"
+        name: "UX设计"
+        agent: "ux-designer"
+        command: "/bmad-ux-design"
+        status: "conditional"
+        condition: "if_has_ui"
+        description: "TestForge有前端界面，需要UX设计"
+        output: "docs/ux-design.md or docs/ux-design/"
+
+  # Phase 2: Solutioning
+  - phase: 2
+    name: "Solutioning"
+    workflows:
+      - id: "create-architecture"
+        name: "架构设计"
+        agent: "architect"
+        command: "/bmad-arch"
+        status: "required"
+        description: "Greenfield项目的完整系统架构设计"
+        output: "docs/architecture.md or docs/architecture/"
+
+      - id: "create-epics-and-stories"
+        name: "创建Epic和Story"
+        agent: "pm"
+        command: "/bmad-create-epics"
+        status: "required"
+        description: "将PRD分解为可实施的epic和story，需要PRD+UX+架构完整上下文"
+        output: "docs/epics/"
+
+      - id: "test-design"
+        name: "测试设计"
+        agent: "tea"
+        command: "/bmad-test-design"
+        status: "recommended"
+        description: "系统级可测试性评估（gate check前）"
+        output: "docs/test-architecture.md"
+
+      - id: "validate-architecture"
+        name: "验证架构"
+        agent: "architect"
+        command: "/bmad-validate-arch"
+        status: "optional"
+        description: "架构完整性质量检查"
+
+      - id: "implementation-readiness"
+        name: "实施就绪检查"
+        agent: "architect"
+        command: "/bmad-impl-ready"
+        status: "required"
+        description: "验证PRD+UX+架构+Epic+可测试性的协调性"
+        output: "docs/implementation-readiness.md"
+
+  # Phase 3: Implementation
+  - phase: 3
+    name: "Implementation"
+    workflows:
+      - id: "sprint-planning"
+        name: "Sprint规划"
+        agent: "sm"
+        command: "/bmad-sprint-plan"
+        status: "required"
+        description: "创建sprint计划，后续工作在sprint-status.yaml中跟踪"
+        output: "docs/sprint-artifacts/sprint-status.yaml"
