@@ -4,7 +4,7 @@ echo   TestForge Platform - Stopping...
 echo ========================================
 echo.
 
-echo [1/3] Stopping services by window title...
+echo [1/4] Stopping services by window title...
 taskkill /FI "WINDOWTITLE eq TestForge Backend*" /T /F 2>nul
 if %errorlevel% equ 0 (
     echo   [OK] Backend window closed
@@ -20,29 +20,33 @@ if %errorlevel% equ 0 (
 )
 
 echo.
-echo [2/3] Force stopping backend service on port 8000...
+echo [2/4] Stopping Backend API (port 8000)...
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":8000" ^| findstr "LISTENING"') do (
-    echo   Killing process PID: %%a
+    echo   Killing backend PID: %%a
     taskkill /PID %%a /F /T 2>nul
     if %errorlevel% equ 0 (
-        echo   [OK] Backend service stopped
+        echo   [OK] Backend stopped
     )
 )
 
 echo.
-echo [3/3] Force stopping frontend service on port 8080...
+echo [3/4] Stopping Frontend UI (port 8080)...
 for /f "tokens=5" %%a in ('netstat -ano ^| findstr ":8080" ^| findstr "LISTENING"') do (
-    echo   Killing process PID: %%a
+    echo   Killing frontend PID: %%a
     taskkill /PID %%a /F /T 2>nul
     if %errorlevel% equ 0 (
-        echo   [OK] Frontend service stopped
+        echo   [OK] Frontend stopped
     )
 )
 
 echo.
 echo ========================================
-echo   All Services Stopped
+echo   All TestForge Services Stopped
 echo ========================================
+echo.
+echo   Services stopped:
+echo   - Backend API (port 8000)
+echo   - Frontend UI with AI (port 8080)
 echo.
 echo   Note: If ports still occupied, reboot PC
 echo.

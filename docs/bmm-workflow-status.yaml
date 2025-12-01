@@ -30,7 +30,7 @@ workflow_status:
         name: "项目头脑风暴"
         agent: "analyst"
         command: "/bmad-brainstorm"
-        status: "docs/bmm-brainstorming-session-2025-11-25.md"
+        status: "docs/bmm-brainstorming-session-2025-11-28.md"
         description: "创意探索和构思，多角度探索功能点和用户场景"
 
       - id: "research"
