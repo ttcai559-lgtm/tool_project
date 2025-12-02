@@ -58,6 +58,10 @@
 - `/bmad-code-review` - 代码审查
 - `/bmad-story-done` - 标记故事为完成
 
+### 文档工具
+
+- `/bmad-document` - 记录现有项目（棕地项目文档化）
+
 ### 图表工具
 
 - `/bmad-diagram` - 创建系统架构图/ERD/UML 图
